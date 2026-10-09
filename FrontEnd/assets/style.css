@@ -46,6 +46,11 @@ table {
 	border-collapse: collapse;
 	border-spacing: 0;
 }
+
+a {
+	text-decoration: none;
+	color: black;
+}
 /** end reset css**/
 body {
 	max-width: 1140px;
@@ -155,7 +160,8 @@ margin: auto;
 	flex-direction: column;
 }
 
-#contact input {
+#contact input,
+.connection input {
 	height: 50px;
 	font-size: 1.2em;
 	border: none;
@@ -186,3 +192,69 @@ footer nav ul {
 	margin: 2em
 }
 
+
+.main {
+	display: flex;
+	justify-content: center;
+}
+
+.container {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	margin-top: 4em;
+}
+
+.connection {
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+}
+
+.connection-label {
+	display: block;
+	margin: 2em 0 1em 0;
+}
+
+.connection input {
+	display: block;
+	width: 370px;
+	margin-top: 0.8em;
+}
+
+form #btn {
+	margin-top: 3em;
+	width: 200px;
+	height: 40px;
+	cursor: pointer;
+}
+
+form a {
+	text-decoration: underline;
+}
+
+
+
+
+.buttonContainer {
+	display: flex;
+	justify-content: center;
+	margin: 3em 0 6em 0;
+	gap: 10px;
+}
+
+
+.buttonContainer button {
+	border: 2px solid #1D6154;
+	border-radius: 60px;
+	color: #1D6154;
+	background-color: white;
+	padding: 1em 1.8em;
+	font-weight: 900;
+}
+
+.buttonContainer button.button-selected {
+	color: white;
+	background-color: #1D6154;
+}
