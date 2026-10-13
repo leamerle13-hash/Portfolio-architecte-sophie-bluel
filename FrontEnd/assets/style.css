@@ -234,6 +234,9 @@ form a {
 	text-decoration: underline;
 }
 
+#submitBtn  {
+	width: 250px;
+}
 
 
 
@@ -254,7 +257,7 @@ form a {
 	font-weight: 900;
 }
 
-.buttonContainer button.button-selected {
+.buttonsContainer button.button-selected {
 	color: white;
 	background-color: #1D6154;
 }

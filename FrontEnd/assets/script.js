@@ -1,99 +1,88 @@
-const portfolio = document.getElementById("portfolio");
+const buttonsContainer = document.querySelector(".buttonsContainer");
 const gallery = document.querySelector(".gallery");
-const buttonContainer = document.querySelector(".buttonContainer");
 
-fetch("http://localhost:5678/api/works")
-    .then(response => response.json())
-    .then(data => {
-        data.map(function (work){
-        const figure = document.createElement("figure");
-        gallery.appendChild(figure);
-
-        //console.log(work.imageUrl)
-        const image = document.createElement("img");
-        image.setAttribute('src', work.imageUrl);
-        figure.appendChild(image);
-
-        const caption = document.createElement("figcaption");
-        caption.innerText = work.title;
-        figure.appendChild(caption);        
-})
-
-    //// Filtres
-    const tousButton = document.createElement("button");
-    tousButton.innerText = "Tous";
-    buttonContainer.appendChild(tousButton);
-
-    tousButton.addEventListener("click", () => {
-        updateButtons(tousButton);
-        display(data);
-    })
-
-
-    const objectButton = document.createElement("button");
-    objectButton.innerText = "Objets";
-    buttonContainer.appendChild(objectButton);
-
-    objectButton.addEventListener("click", () => {
-        updateButtons(objectButton);
-        const objects = data.filter(function (work){
-            return work.category.name === "Objets";
-        })
-        display(objects);
-    })
-
-
-    const appartementsButton = document.createElement("button");
-    appartementsButton.innerText = "Appartements";
-    buttonContainer.appendChild(appartementsButton);
-
-    appartementsButton.addEventListener("click", () => {
-        updateButtons(appartementsButton)
-        const appartements = data.filter(function (work){
-            return work.category.name === "Appartements";
-        })
-        display(appartements);
-    })
-
-
-    const hotelButton = document.createElement("button");
-    hotelButton.innerText = "Hotels & restaurants";
-    buttonContainer.appendChild(hotelButton);
-
-    hotelButton.addEventListener("click", () => {
-        updateButtons(hotelButton)
-        const hotels = data.filter(function (work){
-            return work.category.name === "Hotels & restaurants";
-        })
-        display(hotels);
-    })
-    
-});
-
-
-
-
-
-function display (works){
-    gallery.innerHTML = "";
-    works.map(function (work){
-    const figure = document.createElement("figure");
-    gallery.appendChild(figure);
-
-    const image = document.createElement("img");
-    image.setAttribute('src', work.imageUrl);
-    figure.appendChild(image);
-
-    const caption = document.createElement("figcaption");
-    caption.innerText = work.title;
-    figure.appendChild(caption);
-    })
+async function apiWorks() {
+    const response = await fetch('http://localhost:5678/api/works');
+    const responseJson = await response.json();
+    return responseJson;
 }
 
-function updateButtons (buttonSelected){
-    const allButtons = buttonContainer.children;
-    for (let button of allButtons){
-        button.classList.remove("button-selected");
+async function apiCategories() {
+    const response = await fetch('http://localhost:5678/api/categories');
+    const responseJson = await response.json();
+    return responseJson;
+}
+
+async function init() {
+    const works = await apiWorks();
+    const categories = await apiCategories();
+    console.log(works);
+    console.log(categories);
+
+
+    for (let i = 0; i < works.length; i++){
+        display(works[i]);
     }
-    buttonSelected.classList.add("button-selected");
+
+    const tousBtn = createBtn("Tous");
+    tousBtn.addEventListener("click", () => {
+        gallery.innerHTML = "";
+
+        for (let i = 0; i < works.length; i++){
+            display(works[i]);
+        }
+
+        updateBtn(tousBtn);
+    })
+
+
+    for (let j = 0; j < categories.length; j++){
+        const filterButton = createBtn(categories[j].name);
+        filterButton.dataset.id = categories[j].id;
+
+        filterButton.addEventListener("click", () => {
+            gallery.innerHTML = "";
+
+            for (let k = 0; k < works.length; k++){
+                if (works[k].categoryId === Number(filterButton.dataset.id)){
+                    display(works[k]);
+                }
+            }
+
+            updateBtn(filterButton);
+        })
+    }
+}
+
+init();
+
+function display(workToDisplay) {
+    const projectContainer = document.createElement("figure");
+
+    const newImage = document.createElement("img");
+    newImage.src = workToDisplay.imageUrl;
+    projectContainer.appendChild(newImage);
+
+    const newTitle = document.createElement("p");
+    newTitle.innerText = workToDisplay.title;
+    projectContainer.appendChild(newTitle);
+
+    gallery.appendChild(projectContainer);
+}
+
+function createBtn(name) {
+    const btn = document.createElement("button");
+    btn.innerText = name;
+    buttonsContainer.appendChild(btn);
+    return btn;
+}
+
+function updateBtn(btn) {
+    const buttons = buttonsContainer.children;
+
+    for (let i = 0; i < buttons.length; i++){
+        buttons[i].classList.remove('button-selected');
+    }
+    
+    btn.classList.add('button-selected');
 }
