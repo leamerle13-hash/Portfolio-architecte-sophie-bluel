@@ -54,6 +54,31 @@ async function init() {
     }
 }
 
+const token = localStorage.getItem("token");
+console.log(token);
+
+const editionBanner = document.querySelector(".edition-banner");
+const editButton = document.querySelector(".edit-button");
+const loginLink = document.getElementById("login-link");
+
+if (token){
+    editionBanner.style.display = "block";
+    editButton.style.display = "block";
+    buttonsContainer.style.display = "none";
+    loginLink.innerText = "logout";
+    loginLink.href = "#";
+
+    loginLink.addEventListener("click", function(event) {
+        event.preventDefault();
+
+        localStorage.removeItem("token");
+
+        window.location.reload();
+    });
+}
+
+
+
 init();
 
 function display(workToDisplay) {

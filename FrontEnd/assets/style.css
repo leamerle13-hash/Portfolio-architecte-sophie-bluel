@@ -261,3 +261,27 @@ form a {
 	color: white;
 	background-color: #1D6154;
 }
+
+
+.edition-banner {
+    display: none;
+    background-color: #000;
+    color: #fff;
+    text-align: center;
+    padding: 10px;
+}
+
+.portfolio-title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+.edit-button {
+    display: none;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font: inherit;
+}
