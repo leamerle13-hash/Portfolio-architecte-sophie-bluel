@@ -8,12 +8,13 @@
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap" rel="stylesheet">
 	<meta name="description" content="">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 	<link rel="stylesheet" href="./assets/style.css">
 	<script src="assets/script.js" defer></script>
 </head>
 <body> 
 	<div class="edition-banner">
-		<i class="fa-regular fa-pen-to-square">Mode édition</i>
+		<i class="fa-regular fa-pen-to-square"></i> Mode édition
 	</div>
 	<header id="header">
 		<h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
@@ -42,10 +43,10 @@
 			<div class="portfolio-title">
 				<h2>Mes Projets</h2>
 				<button class="edit-button">
-					<i class="fa-regular fa-pen-to-square">modifier</i>	
+					<i class="fa-regular fa-pen-to-square"></i> Modifier
 				</button>
 			</div>
-			<div class="buttonsContainer"></div>
+			<div class="buttonsContainer"></div> 
 			<div class="gallery"></div>
 		</section>
 		<section id="contact">
@@ -65,11 +66,44 @@
 
 	<aside class="modal" id="modal">
 		<div class="modal-content">
-			<button class="modal-close" id="modal-close"></button>
-			<h2>Galerie photo</h2>
-			<div class="modal-gallery"></div>
-			<hr>
-			<button class="modal-add-button">Ajouter une photo</button>
+			<i class="fa-solid fa-xmark modal-close" id="modal-close"></i>
+			<div class="modal-gallery-view" id="modal-gallery-view">
+				<h3>Galerie photo</h3>
+				<div class="modal-gallery"></div>
+				<hr>
+				<button class="modal-add-button">
+					Ajouter une photo
+				</button>
+			</div>
+			<div class="modal-form" id="modal-form" hidden>
+				<i class="fa-solid fa-arrow-left-long modal-back" id="modal-back"></i>
+				<h3>Ajout photo</h3>
+				<label for="modal-updated-file" id="modal-file-update" class="modal-file-update">
+					<div id="updated-file-info">
+						<i class="fa-regular fa-image image-icon"></i>
+						<p class="add-picure-text">+ Ajouter photo</p>
+						<p class="picture-size-text">jpg, png : 4mo max</p>
+						<input type="file" id="modal-updated-file" name="updated-file" required>
+						<p id="file-error-message"></p>
+					</div>
+					<div id="preview-img-container"></div>
+				</label>
+				<form id="add-work-form">
+					<div class="form-group">
+						<label for="work-title">Titre</label>
+						<input type="text" id="work-title" name="title" required>
+					</div>
+					<div class="form-group">
+						<label for="work-category">Catégorie</label>
+						<select id="work-category" name="category" required>
+							<option value=""></option>
+						</select>
+					</div>
+					<button type="submit" class="modal-validate" disabled>
+						Valider
+					</button>
+				</form>
+            </div>
 		</div>
 	</aside>
 
