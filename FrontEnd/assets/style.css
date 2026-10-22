@@ -47,6 +47,10 @@ table {
 	border-spacing: 0;
 }
 
+p {
+	margin-top: 0.5em;
+}
+
 a {
 	text-decoration: none;
 	color: black;
@@ -63,6 +67,12 @@ header {
 	justify-content: space-between;
 	margin: 50px 0
 }
+
+header,
+main,
+aside,
+footer {}
+
 section {
 	margin: 50px 0
 }
@@ -162,6 +172,7 @@ margin: auto;
 
 #contact input,
 .connection input {
+	padding: 0 1em;
 	height: 50px;
 	font-size: 1.2em;
 	border: none;
@@ -263,13 +274,13 @@ form a {
 }
 
 
-.edition-banner {
+body #edition-banner {
     display: none;
     background-color: #000;
     color: #fff;
     text-align: center;
     padding: 10px;
-	max-width: none;
+	width: 100%;
 }
 
 .portfolio-title {
@@ -376,6 +387,11 @@ form a {
     cursor: pointer;
 }
 
+.modal-validate {
+	display: flex;
+	justify-content: center;
+}
+
 .modal-form {
     text-align: left;
 	padding: 0 60px;
@@ -396,10 +412,6 @@ form a {
     font: inherit;
 }
 
-.modal-validate:disabled {
-    background-color: #A7A7A7;
-    cursor: not-allowed;
-}
 
 
 #modal-updated-file {

@@ -1,5 +1,7 @@
 const buttonsContainer = document.querySelector(".buttonsContainer");
 const gallery = document.querySelector(".gallery");
+const workCategory = document.getElementById("work-category");
+let works = [];
 
 async function apiWorks() {
     const response = await fetch('http://localhost:5678/api/works');
@@ -14,10 +16,9 @@ async function apiCategories() {
 }
 
 async function init() {
-    const works = await apiWorks();
+    works = await apiWorks();
     const categories = await apiCategories();
-    //console.log(works);
-    //console.log(categories);
+
 
 
     for (let i = 0; i < works.length; i++){
@@ -37,7 +38,10 @@ async function init() {
         updateBtn(tousBtn);
     })
 
+    // reinitialiser categories
+    workCategory.innerHTML = '<option value=""></option>';
 
+    // filtres
     for (let j = 0; j < categories.length; j++){
         const filterButton = createBtn(categories[j].name);
         filterButton.dataset.id = categories[j].id;
@@ -53,15 +57,19 @@ async function init() {
 
             updateBtn(filterButton);
         })
-    }   
+        
+        const newOption = document.createElement("option");
+        newOption.innerText = categories[j].name;
+        newOption.dataset.id = categories[j].id;
+        workCategory.appendChild(newOption);
+    }  
 }
 
 // Changement display login
 
 const token = localStorage.getItem("token");
-//console.log(token);
 
-const editionBanner = document.querySelector(".edition-banner");
+const editionBanner = document.getElementById("edition-banner");
 const editButton = document.querySelector(".edit-button");
 const loginLink = document.getElementById("login-link");
 
@@ -95,7 +103,9 @@ const galleryModal = document.querySelector(".modal-gallery");
 
 editButton.addEventListener("click", () => {
     modal.style.display = "flex";
-    //galleryView.hidden = false;
+    
+    galleryView.hidden = false;
+    modalForm.hidden = true;
 })
 
 closeButton.addEventListener("click", () => {
@@ -118,9 +128,8 @@ backButton.addEventListener("click", () => {
     modalForm.hidden = true;
 })
 
-/////
 
-
+//ajout photo
 const updatedfile = document.getElementById("modal-updated-file");
 const fileErrorMessage = document.getElementById("file-error-message");
 const workTitleInput = document.getElementById("work-title");
@@ -147,7 +156,6 @@ updatedfile.addEventListener("change", () => {
     }
 
     // Preview
-
     const previewImg = document.createElement("img");
     previewImg.src = URL.createObjectURL(file);
     previewImgContainer.appendChild(previewImg);
@@ -156,10 +164,45 @@ updatedfile.addEventListener("change", () => {
 })
 
 
-const workTitle = workTitleInput.value;
+//ajout projet
+const newWorkForm = document.getElementById("add-work-form");
 
 
+newWorkForm.addEventListener("submit", async function (event) {
+    event.preventDefault();
+    
+    const file = updatedfile.files[0];
+    const workTitle = workTitleInput.value;
 
+    if (!file){
+        return;
+    }
+
+    const selectCategory = document.getElementById("work-category");
+    const workCategory = selectCategory.selectedOptions[0].dataset.id;
+
+    const formData = new FormData();
+    formData.append("image", file);
+    formData.append("title", workTitle);
+    formData.append("category", workCategory);
+
+    const send = await fetch('http://localhost:5678/api/works' , {
+        method: "POST",
+        headers: {"Authorization": `Bearer ${localStorage.getItem("token")}`},
+        body: formData
+    })
+     
+    if (send.status === 201){
+        console.log("projet ajouté");
+        gallery.innerHTML = "";
+        galleryModal.innerHTML = "";
+        workTitleInput.value = "";
+        updatedfile.value = "";
+        previewImgContainer.style.display = "none";
+        updatedFileInfo.style.display = "flex"
+        await init();
+    }
+})
 
 
 
